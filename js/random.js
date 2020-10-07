@@ -1,5 +1,6 @@
-import { Grass, Rock } from "./classes/Tiles/main.js";
+import { Grass, Rock, Food, Water } from "./classes/Tiles/main.js";
 import { Noise } from "./noise.js";
+import { Vector } from "./classes/Vector.js";
 export const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
@@ -8,6 +9,7 @@ export const getRandomTraits = () => {
     strength: 2,
     health: 20,
     defence: 5,
+    sense: 1,
     speed: 1,
     belly: 10,
     attraction: 10,
@@ -30,18 +32,29 @@ export const getRandomTraits = () => {
 };
 export const worldGeneration = (seed = Math.random(), worldData, worldSize) => {
   let noise = new Noise(seed);
-  console.log(worldData);
-  console.log(worldSize);
   for (let x = 0; x < worldSize.x; x++) {
     for (let y = 0; y < worldSize.y; y++) {
-      let value = noise.simplex2(x, y);
-      console.log(value)
-      if (value <= 0.25) {
+      let value = noise.simplex2(x / 15, y / 15); //make customizable noise
+      worldData[x][y] = {};
+      // worldData[x][y].color = `rgb(${value*255},${value*255},${value*255})`
+      if (value <= 0.25 && value > -0.75) {
         //PLEASE FIGUREOUT HOW YOU DO SWITCHES WITH EXPRESSIONS
-        worldData[x][y] = new Grass(x, y);
+        worldData[x][y] = new Grass(new Vector(x, y));
       } else if (value > 0.25) {
-        worldData[x][y] = new Rock(x, y);
+        worldData[x][y] = new Rock(new Vector(x, y));
+      } else if (value <= -0.75) {
+        worldData[x][y] = new Water(new Vector(x, y));
       }
+    }
+  }
+  //POPULATION PHASE
+  for (let i = 0; i <= 100; i++) {
+    let position = new Vector(
+      getRandomInt(0, worldSize.x),
+      getRandomInt(0, worldSize.y)
+    );
+    if (worldData[position.x][position.y] instanceof Grass) {
+      worldData[position.x][position.y] = new Food(position);
     }
   }
 };

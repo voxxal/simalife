@@ -9,9 +9,12 @@ export class World {
     //make it a vector
     this.height = height;
     this.width = width;
+    this.simas = [];
+    this.simas.push(new Sima(new Vector(10, 10)));
+
     this.data = new Array2D(new Vector(width, height));
     worldGeneration(
-      Math.random,
+      Math.random(),
       this.data,
       new Vector(this.width, this.height)
     );
@@ -23,12 +26,17 @@ export class World {
         render.tile(new Vector(x, y), this.data[x][y].color);
       }
     }
+    for (let sima of this.simas) {
+      render.tile(new Vector(sima.position.x, sima.position.y));
+      sima.sense(this.data);
+      // sima.pathfind();
+    }
     let rAF = requestAnimationFrame(() => {
       this.update();
     });
   }
   arrayify() {
-    // change solid to 1 and not solid to 0
+    new Array2D(new Vector(width, height));
   }
   move(from, to) {}
 }
