@@ -48,7 +48,7 @@ export const worldGeneration = (seed = Math.random(), worldData, worldSize) => {
     }
   }
   //POPULATION PHASE
-  for (let i = 0; i <= 100; i++) {
+  for (let i = 0; i <= 1000; i++) {
     let position = new Vector(
       getRandomInt(0, worldSize.x),
       getRandomInt(0, worldSize.y)

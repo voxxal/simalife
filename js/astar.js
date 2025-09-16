@@ -383,11 +383,12 @@ BinaryHeap.prototype = {
   },
 }; //functionalize it
 export function pathfindify(i) {
-  for (let x in i) {
-    for (let y in i[x]) {
-      i[x][y] = i[x][y].solid ? 0 : 1;
+  let a = Object.create(i);
+  for (let x in a) {
+    for (let y in a[x]) {
+      a[x][y] = a[x][y].solid ? 0 : 1;
     }
   }
-  return i;
+  return a;
 }
 export { astar, Graph };

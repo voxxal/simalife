@@ -3,6 +3,7 @@ import { Vector } from "./classes/Vector.js";
 import { World } from "./classes/World.js";
 let world = new World(100, 100);
 window.world = world;
+
 let rAF = requestAnimationFrame(() => { world.update(); });
 /**
  * 

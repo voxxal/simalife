@@ -21,6 +21,7 @@ export class World {
     render.grid(width, height);
   }
   update() {
+
     for (let x in this.data) {
       for (let y in this.data[x]) {
         render.tile(new Vector(x, y), this.data[x][y].color);
@@ -28,13 +29,12 @@ export class World {
     }
     for (let sima of this.simas) {
       render.tile(new Vector(sima.position.x, sima.position.y));
-      sima.sense(this.data);
+      sima.chooseTarget();
       // sima.pathfind();
     }
-    let rAF = requestAnimationFrame(() => {
-      this.update();
-    });
+    let rAF = requestAnimationFrame(() => { world.update(); });
   }
+
   arrayify() {
     new Array2D(new Vector(width, height));
   }
